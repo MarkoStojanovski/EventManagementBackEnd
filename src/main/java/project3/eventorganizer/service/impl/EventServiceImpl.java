@@ -46,17 +46,18 @@ public class EventServiceImpl implements EventService {
         Location location = this.locationRepository.findById(event.getLocation().getId())
                 .orElseThrow(LocationNotFoundException::new);
 
-        if (user.getRole().toString().equals("ATTENDEE")){
+        if (user.getRole().toString().equals("ATTENDEE")) {
             throw new EventCreateAttendeeException();
         }
         Event newEvent = new Event(
-          event.getTitle(),
-          event.getDescription(),
-          event.getCategory(),
-          event.getEventDateTime(),
-          event.getMaxCapacity(),
-          location,
-          user
+                event.getTitle(),
+                event.getDescription(),
+                event.getCategory(),
+                event.getEventDateTime(),
+                event.getMaxCapacity(),
+                event.getImageUrl(),
+                location,
+                user
         );
         return this.eventRepository.save(newEvent);
     }
@@ -75,15 +76,16 @@ public class EventServiceImpl implements EventService {
 
         if (!(user.getRole().toString().equals("ORGANIZER") &&
                 event.getOrganizer().getEmail().equals(user.getEmail())
-             )
-             || !user.getRole().toString().equals("ADMIN")
-        ){
+        )
+                || !user.getRole().toString().equals("ADMIN")
+        ) {
             throw new EventUpdateException();
         }
         updatedEvent.setTitle(event.getTitle());
         updatedEvent.setCategory(event.getCategory());
         updatedEvent.setDescription(event.getDescription());
         updatedEvent.setMaxCapacity(event.getMaxCapacity());
+        updatedEvent.setImageUrl(event.getImageUrl());
         updatedEvent.setLocation(location);
         updatedEvent.setOrganizer(user);
         updatedEvent.setEventDateTime(event.getEventDateTime());

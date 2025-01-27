@@ -53,12 +53,17 @@ public class Event {
     @JoinColumn(name = "organizer_id")
     private User organizer;
 
-    public Event(String title, String description, Category category, LocalDateTime eventDateTime, int maxCapacity, Location location, User organizer) {
+    @NotBlank(message = "Event must have an image !")
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    public Event(String title, String description, Category category, LocalDateTime eventDateTime, int maxCapacity, String imageUrl, Location location, User organizer) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.eventDateTime = eventDateTime;
         this.maxCapacity = maxCapacity;
+        this.imageUrl = imageUrl;
         this.location = location;
         this.organizer = organizer;
     }
