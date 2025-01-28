@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 passwordEncoder.encode(password),
                 name,
                 surname,
-                role
+                Role.ATTENDEE
         );
         user = this.userRepository.save(user);
 
