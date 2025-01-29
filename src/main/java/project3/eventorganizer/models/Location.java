@@ -1,7 +1,6 @@
 package project3.eventorganizer.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -45,11 +44,15 @@ public class Location {
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
-    public Location(String name, String city, String country, String address, LocalDate activeSince) {
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    public Location(String name, String city, String country, String address, LocalDate activeSince, String imageUrl) {
         this.name = name;
         this.city = city;
         this.country = country;
         this.address = address;
         this.activeSince = activeSince;
+        this.imageUrl = imageUrl;
     }
 }

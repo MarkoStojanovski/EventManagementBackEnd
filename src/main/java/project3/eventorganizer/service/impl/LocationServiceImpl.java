@@ -6,8 +6,6 @@ import project3.eventorganizer.models.Location;
 import project3.eventorganizer.models.exceptions.LocationNotFoundException;
 import project3.eventorganizer.repository.LocationRepository;
 import project3.eventorganizer.service.LocationService;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,7 +25,8 @@ public class LocationServiceImpl implements LocationService {
                 location.getCity(),
                 location.getCountry(),
                 location.getAddress(),
-                location.getActiveSince()
+                location.getActiveSince(),
+                location.getImageUrl()
         );
         return this.locationRepository.save(newLocation);
     }
@@ -43,6 +42,7 @@ public class LocationServiceImpl implements LocationService {
         updatedLocation.setCountry(location.getCountry());
         updatedLocation.setAddress(location.getAddress());
         updatedLocation.setActiveSince(location.getActiveSince());
+        updatedLocation.setImageUrl(location.getImageUrl());
 
         return this.locationRepository.save(updatedLocation);
     }
