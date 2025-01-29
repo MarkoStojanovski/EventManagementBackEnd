@@ -19,8 +19,10 @@ public class EventRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents() {
-        List<Event> events = this.eventService.findAll();
+    public ResponseEntity<List<Event>> getAllEvents(
+            @RequestParam(required = false) String category
+            ) {
+        List<Event> events = this.eventService.findByCriteria(category);
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 

@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                                 "/api/roles",
                                 "/api/events/**",
                                 "/api/payments/**",
+                                "/api/sponsors/**",
                                 "/api/tickets/**",
                                 "/api/locations/**",
                                 "/api/feedbacks/**",

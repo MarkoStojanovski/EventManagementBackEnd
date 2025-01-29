@@ -8,7 +8,7 @@ public interface EventService {
 
     Event findById(Long id);
 
-    List<Event> findAll();
+    List<Event> findByCriteria(String category);
 
     Event createEvent(Event event);
 

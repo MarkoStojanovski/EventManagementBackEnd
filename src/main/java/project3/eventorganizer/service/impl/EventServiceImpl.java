@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Event;
 import project3.eventorganizer.models.Location;
 import project3.eventorganizer.models.User;
+import project3.eventorganizer.models.enumerations.Category;
 import project3.eventorganizer.models.exceptions.*;
 import project3.eventorganizer.repository.EventRepository;
 import project3.eventorganizer.repository.LocationRepository;
@@ -33,7 +34,10 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findAll() {
+    public List<Event> findByCriteria(String category) {
+        if(category != null && !category.isEmpty()){
+            return this.eventRepository.findByCategory(Category.valueOf(category.toUpperCase()));
+        }
         return this.eventRepository.findAll();
     }
 
