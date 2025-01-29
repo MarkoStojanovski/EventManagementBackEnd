@@ -36,9 +36,9 @@ public class Sponsor {
     @Column(name = "email")
     private String email;
 
-    @URL(message = "Website URL is not valid")
-    @Column(name = "website")
-    private String website;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(name = "sponsorship_amount")
     @Min(0)
@@ -66,11 +66,11 @@ public class Sponsor {
         this.moneyGivenDate = LocalDate.now();
     }
 
-    public Sponsor(String name, LocalDate foundedIn, String email, String website, Double amountGiven, SponsorStatus sponsorStatus) {
+    public Sponsor(String name, LocalDate foundedIn, String email, String imageUrl, Double amountGiven, SponsorStatus sponsorStatus) {
         this.name = name;
         this.foundedIn = foundedIn;
         this.email = email;
-        this.website = website;
+        this.imageUrl = imageUrl;
         this.amountGiven = amountGiven;
         this.sponsorStatus = sponsorStatus;
     }

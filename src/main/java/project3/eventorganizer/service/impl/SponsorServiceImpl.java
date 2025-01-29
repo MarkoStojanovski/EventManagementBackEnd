@@ -36,7 +36,7 @@ public class SponsorServiceImpl implements SponsorService {
           sponsor.getName(),
           sponsor.getFoundedIn(),
           sponsor.getEmail(),
-          sponsor.getWebsite(),
+          sponsor.getImageUrl(),
           sponsor.getAmountGiven(),
           sponsor.getSponsorStatus()
         );
@@ -52,7 +52,7 @@ public class SponsorServiceImpl implements SponsorService {
         updatedSponsor.setName(sponsor.getName());
         updatedSponsor.setFoundedIn(sponsor.getFoundedIn());
         updatedSponsor.setEmail(sponsor.getEmail());
-        updatedSponsor.setWebsite(sponsor.getWebsite());
+        updatedSponsor.setImageUrl(sponsor.getImageUrl());
         updatedSponsor.setAmountGiven(sponsor.getAmountGiven());
         updatedSponsor.setSponsorStatus(sponsor.getSponsorStatus());
 
