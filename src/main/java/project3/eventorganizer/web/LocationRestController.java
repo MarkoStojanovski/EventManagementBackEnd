@@ -1,12 +1,17 @@
 package project3.eventorganizer.web;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project3.eventorganizer.models.Location;
 import project3.eventorganizer.service.LocationService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/locations")
@@ -20,9 +25,18 @@ public class LocationRestController {
 
 
     @GetMapping
-    public ResponseEntity<List<Location>> getAllLocations() {
-        List<Location> locations = this.locationService.findAll();
-        return new ResponseEntity<>(locations, HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> getAllLocations(
+            @RequestParam(value = "page", defaultValue = "0") int page
+    ) {
+        Pageable pageable = PageRequest.of(page, 6);
+        Page<Location> locations = this.locationService.findAllLocations(pageable);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("locations",locations.getContent());
+        response.put("totalPages",locations.getTotalPages());
+        response.put("currentPage",locations.getNumber());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

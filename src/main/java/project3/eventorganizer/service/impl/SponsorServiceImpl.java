@@ -1,5 +1,7 @@
 package project3.eventorganizer.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Sponsor;
@@ -25,8 +27,8 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     @Override
-    public List<Sponsor> findAll() {
-        return this.sponsorRepository.findAll();
+    public Page<Sponsor> findAllSponsors(Pageable pageable) {
+        return this.sponsorRepository.findAllSponsors(pageable);
     }
 
     @Override

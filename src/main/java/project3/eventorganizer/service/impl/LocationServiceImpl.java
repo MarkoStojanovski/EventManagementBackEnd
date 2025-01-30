@@ -1,5 +1,7 @@
 package project3.eventorganizer.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Location;
@@ -15,6 +17,18 @@ public class LocationServiceImpl implements LocationService {
 
     public LocationServiceImpl(LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
+    }
+
+    @Override
+    public Page<Location> findAllLocations(Pageable pageable)
+    {
+        return this.locationRepository.findAllLocations(pageable);
+    }
+
+    @Override
+    public Location findById(Long id) {
+        return this.locationRepository.findById(id)
+                .orElseThrow(LocationNotFoundException::new);
     }
 
     @Override
@@ -45,17 +59,6 @@ public class LocationServiceImpl implements LocationService {
         updatedLocation.setImageUrl(location.getImageUrl());
 
         return this.locationRepository.save(updatedLocation);
-    }
-
-    @Override
-    public Location findById(Long id) {
-        return this.locationRepository.findById(id)
-                .orElseThrow(LocationNotFoundException::new);
-    }
-
-    @Override
-    public List<Location> findAll() {
-        return this.locationRepository.findAll();
     }
 
     @Override

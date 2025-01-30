@@ -1,12 +1,17 @@
 package project3.eventorganizer.web;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project3.eventorganizer.models.Event;
 import project3.eventorganizer.service.EventService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/events")
@@ -19,11 +24,18 @@ public class EventRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(
-            @RequestParam(required = false) String category
+    public ResponseEntity<Map<String, Object>> getAllEvents(
+            @RequestParam(required = false) String category,
+            @RequestParam(value = "page", defaultValue = "6") int page
             ) {
-        List<Event> events = this.eventService.findByCriteria(category);
-        return new ResponseEntity<>(events, HttpStatus.OK);
+        Pageable pageable = PageRequest.of(page, 6);
+        Page<Event> events = this.eventService.findByCriteria(category, pageable);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("events",events.getContent());
+        response.put("totalPages",events.getTotalPages());
+        response.put("currentPage",events.getNumber());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

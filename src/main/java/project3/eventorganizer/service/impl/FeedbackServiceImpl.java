@@ -1,5 +1,7 @@
 package project3.eventorganizer.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Event;
@@ -27,6 +29,11 @@ public class FeedbackServiceImpl implements FeedbackService {
         this.feedbackRepository = feedbackRepository;
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public Page<Feedback> findAllFeedbacks(Pageable pageable) {
+        return this.feedbackRepository.findAllFeedbacks(pageable);
     }
 
     @Override
@@ -75,11 +82,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         updatedFeedback.setUser(user);
 
         return this.feedbackRepository.save(updatedFeedback);
-    }
-
-    @Override
-    public List<Feedback> findAll() {
-        return this.feedbackRepository.findAll();
     }
 
     @Override

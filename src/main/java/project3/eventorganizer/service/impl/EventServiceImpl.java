@@ -1,5 +1,7 @@
 package project3.eventorganizer.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Event;
@@ -34,11 +36,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findByCriteria(String category) {
+    public Page<Event> findByCriteria(String category, Pageable pageable) {
         if(category != null && !category.isEmpty()){
-            return this.eventRepository.findByCategory(Category.valueOf(category.toUpperCase()));
+            return this.eventRepository.findByCategory(Category.valueOf(category.toUpperCase()), pageable);
         }
-        return this.eventRepository.findAll();
+        return this.eventRepository.findAllEvents(pageable);
     }
 
     @Override
