@@ -1,5 +1,7 @@
 package project3.eventorganizer.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import project3.eventorganizer.models.Event;
 import project3.eventorganizer.models.Payment;
 import project3.eventorganizer.models.Ticket;
@@ -11,7 +13,7 @@ public interface TicketService {
 
     Ticket findById(Long id);
 
-    List<Ticket> findAll();
+    Page<Ticket> findAllTickets(Pageable pageable);
 
     Ticket createTicket(Ticket ticket);
 

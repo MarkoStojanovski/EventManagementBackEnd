@@ -1,5 +1,7 @@
 package project3.eventorganizer.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Event;
@@ -36,10 +38,9 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAll() {
-        return this.ticketRepository.findAll();
+    public Page<Ticket> findAllTickets(Pageable pageable) {
+        return this.ticketRepository.findAllTickets(pageable);
     }
-//    TicketType ticketType, double price, boolean isDeleted, Event event, Payment payment
 
     @Override
     @Transactional

@@ -1,5 +1,7 @@
 package project3.eventorganizer.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Payment;
@@ -19,10 +21,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    @Transactional
-    public Payment createPayment(Payment payment) {
-        Payment newPayment = new Payment(payment.getPaymentDate());
-        return this.paymentRepository.save(newPayment);
+    public Page<Payment> findAllPayments(Pageable pageable) {
+        return this.paymentRepository.findAllPayments(pageable);
     }
 
     @Override
@@ -32,10 +32,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> findAll() {
-        return this.paymentRepository.findAll();
+    @Transactional
+    public Payment createPayment(Payment payment) {
+        Payment newPayment = new Payment(payment.getPaymentDate());
+        return this.paymentRepository.save(newPayment);
     }
-
     @Override
     public void softDelete(Long id) {
         Payment payment = this.paymentRepository.findById(id)
