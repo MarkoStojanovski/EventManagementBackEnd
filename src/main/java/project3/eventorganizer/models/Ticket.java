@@ -34,7 +34,7 @@ public class Ticket {
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "ticket_id")
+    @JoinColumn(name = "payment_id")
     private Payment payment;
 
     public Ticket(TicketType ticketType, double price, Event event, Payment payment) {
