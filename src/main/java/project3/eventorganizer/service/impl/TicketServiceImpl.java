@@ -7,16 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 import project3.eventorganizer.models.Event;
 import project3.eventorganizer.models.Payment;
 import project3.eventorganizer.models.Ticket;
-import project3.eventorganizer.models.enumerations.TicketType;
 import project3.eventorganizer.models.exceptions.EventNotFoundException;
-import project3.eventorganizer.models.exceptions.PaymentNotFoundException;
 import project3.eventorganizer.models.exceptions.TicketNotFoundException;
+import project3.eventorganizer.models.exceptions.TicketSoldOutException;
 import project3.eventorganizer.repository.EventRepository;
 import project3.eventorganizer.repository.PaymentRepository;
 import project3.eventorganizer.repository.TicketRepository;
 import project3.eventorganizer.service.TicketService;
 
-import java.util.List;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -34,6 +32,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket findById(Long id) {
         return this.ticketRepository.findById(id)
+                .filter(ticket -> !ticket.isDeleted())
                 .orElseThrow(TicketNotFoundException::new);
     }
 
@@ -47,14 +46,12 @@ public class TicketServiceImpl implements TicketService {
     public Ticket createTicket(Ticket ticket) {
         Event event = this.eventRepository.findById(ticket.getEvent().getId())
                 .orElseThrow(EventNotFoundException::new);
-        Payment payment = this.paymentRepository.findById(ticket.getPayment().getId())
-                .orElseThrow(PaymentNotFoundException::new);
 
         Ticket newTicket = new Ticket(
                 ticket.getTicketType(),
                 ticket.getPrice(),
-                event,
-                payment
+                ticket.getQuantity(),
+                event
         );
         return this.ticketRepository.save(newTicket);
     }
@@ -68,13 +65,10 @@ public class TicketServiceImpl implements TicketService {
         Event event = this.eventRepository.findById(ticket.getEvent().getId())
                 .orElseThrow(EventNotFoundException::new);
 
-        Payment payment = this.paymentRepository.findById(ticket.getPayment().getId())
-                .orElseThrow(PaymentNotFoundException::new);
-
         updateTicket.setTicketType(ticket.getTicketType());
         updateTicket.setPrice(ticket.getPrice());
         updateTicket.setEvent(event);
-        updateTicket.setPayment(payment);
+        updateTicket.setQuantity(ticket.getQuantity());
 
         return this.ticketRepository.save(updateTicket);
     }
@@ -87,5 +81,27 @@ public class TicketServiceImpl implements TicketService {
         ticket.setDeleted(true);
 
         this.ticketRepository.save(ticket);
+    }
+
+    @Override
+    public Page<Ticket> findByEvent(Event event, Pageable pageable) {
+        return this.ticketRepository.findTicketByEvent(event.getId(), pageable);
+    }
+
+    @Override
+    @Transactional
+    public Ticket purchaseTicket(Long ticketId, Payment payment) {
+        Ticket ticket = this.ticketRepository.findById(ticketId)
+                .orElseThrow(TicketNotFoundException::new);
+
+        if (ticket.getQuantity() <= 0) {
+            throw new TicketSoldOutException();
+        }
+
+        Payment savedPayment = this.paymentRepository.save(payment);
+        ticket.setPayment(savedPayment);
+        ticket.setQuantity(ticket.getQuantity() - 1);
+
+        return this.ticketRepository.save(ticket);
     }
 }

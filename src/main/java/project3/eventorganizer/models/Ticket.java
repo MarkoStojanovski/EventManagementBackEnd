@@ -26,6 +26,10 @@ public class Ticket {
     @Min(0)
     private double price;
 
+    @Column(name = "quantity")
+    @Min(0)
+    private int quantity;
+
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
@@ -34,14 +38,13 @@ public class Ticket {
     private Event event;
 
     @ManyToOne
-    @JoinColumn(name = "payment_id")
+    @JoinColumn(name = "payment_id", nullable = true)
     private Payment payment;
 
-    public Ticket(TicketType ticketType, double price, Event event, Payment payment) {
+    public Ticket(TicketType ticketType, double price,int quantity, Event event) {
         this.ticketType = ticketType;
         this.price = price;
+        this.quantity = quantity;
         this.event = event;
-        this.payment = payment;
     }
-
 }
