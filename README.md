@@ -1,11 +1,11 @@
 # EventManagementBackEnd
 
 ## Ongoing Project !!!
-## Java Spring Boot
 ### The idea is to manage and organize events from different categories and actually make money from it. People can browse events, buy tickets, and attend whatever interests them. The goal is to make it super easy for both event organizers and attendees.
 
 
-### Full Code is on master branch.
+## Full Code is on master branch.
+- This is back-end part. The front-end is on EventManagementFrontEnd repo.
 
 ## Models
 ### User – Manages user data and roles.
@@ -28,3 +28,8 @@
 
 ## REST Controllers
 ### Provides RESTful APIs for front-end integration with a React application.
+
+## Technologies Used
+### Backend: Java Spring Boot
+### Database: PostgreSQL
+### Security: Spring Security for authentication and role-based authorization
